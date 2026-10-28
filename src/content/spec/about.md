@@ -1,27 +1,35 @@
 # 关于我 / About Me
 
-你好！我是 **夏叶** ，一个在数字世界中默默无闻的一片叶子。
+我是 **阿杰**，熟悉的朋友也会叫我**杰哥**，英文 ID 常用 **WirepullerDX**。
 
-## 🛠️ 关于本站
+比起「折腾」，我更愿意把这件事叫做**运维一套属于自己的基础设施**：一台 NAS 是数据中心，Docker 是软件分发方式，网络与代理是连接这一切的链路。时间久了，几块硬盘、几台小机器和一堆容器，就长成了一个能自洽运转的小型自托管平台——有存储、有入口、有监控，也有备份和恢复预案。
 
-这个网站使用 **Astro** 框架构建，采用了 [Firefly](https://github.com/CuteLeaf/Firefly) 模板，Firefly 是基于 [Fuwari](https://github.com/saicaca/fuwari) 的二次开发。
+## 我在折腾什么
 
-**Firefly** 是一款基于 Astro 框架和 Fuwari 模板开发的清新美观且现代化个人博客主题模板，专为技术爱好者和内容创作者设计。该主题融合了现代 Web 技术栈，提供了丰富的功能模块和高度可定制的界面，让您能够轻松打造出专业且美观的个人博客网站。
+- **存储与数据**：以 NAS 为核心做容量规划、快照与异地备份。先保证数据不丢，再谈玩法。
+- **容器化**：用 Docker / Compose 把服务拆成可复现的单元，配置纳入版本管理。重建一次环境和重建一百次，结果应当完全一致。
+- **网络**：内网分层、反向代理、DNS 与分流策略，代理链路按需编排。比起「能通」，更在意路径可解释、故障可定位。
+- **边缘部署**：静态优先，能放在边缘的绝不回源；动态能力交给 Serverless 兜底，成本和弹性都可控。
 
+## 关于本站
 
-**🖥️在线预览： [Firefly - Demo site](https://firefly.cuteleaf.cn/)**
+本站是一个**纯边缘托管**的静态站点，没有传统意义上的服务器：
 
-**📝Firefly使用文档： [https://docs-firefly.cuteleaf.cn](https://docs-firefly.cuteleaf.cn/)**
+- 框架：Astro + [Firefly](https://github.com/CuteLeaf/Firefly)（基于 [Fuwari](https://github.com/saicaca/fuwari)）
+- 托管：Cloudflare Pages，全站构建期静态生成
+- 评论：Twikoo 2.0，运行在 Workers 上，数据落在 D1
+- 图片：Cloudflare R2，自定义域名加边缘缓存
+- 搜索：Pagefind，构建时生成索引
 
-**⭐Firefly开源地址：[https://github.com/CuteLeaf/Firefly](https://github.com/CuteLeaf/Firefly)** 
+这里写的大多是上面那些折腾的踩坑记录与阶段性总结。如果恰好能帮你少走一点弯路，那它的价值就远超一个备忘录了。
 
-**⭐Fuwari开源地址：[https://github.com/saicaca/fuwari](https://github.com/saicaca/fuwari)**
+## 找到我
+
+- GitHub：[WirepullerDX](https://github.com/WirepullerDX)
+- 其他：评论区留言，或者从友链页面找到入口
 
 ::github{repo="CuteLeaf/Firefly"}
 
-::github{repo="saicaca/fuwari"}
-
 ---
 
-*感谢你的来访！希望在这里能找到对你有用的内容！*
-
+*感谢你的来访。*
