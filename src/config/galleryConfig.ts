@@ -15,6 +15,16 @@ export const galleryConfig: GalleryConfig = {
 		// password: 访问密码，设置后需要输入密码才能查看相册内容（可选）
 		// passwordHint: 密码提示，设置后在输入密码错误时显示（可选，需配合password使用）
 		// 每添加一个数组项就相当于添加了一个相册，记得在 public/gallery/ 目录下创建对应的子目录并放入图片
+		{
+			id: "r2-test",
+			name: "R2 测试相册",
+			description:
+				"用于验证 Cloudflare R2 图床、自定义域名和远程图片加载。示例照片来自 Lorem Picsum。",
+			location: "Cloudflare R2",
+			date: "2026-10-29",
+			tags: ["R2", "测试", "风景"],
+			cover: "https://img.rxcdjg.dpdns.org/gallery/r2-test/photo-01.webp",
+		},
 	],
 
 	// 瀑布流最小列宽(px)，浏览器根据容器宽度自动计算列数，默认 240

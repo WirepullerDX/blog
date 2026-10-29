@@ -16,5 +16,12 @@
   "src:assets/images/DesktopWallpaper/d1.avif": "8b9bb59ba6bae7d7dd",
   "public:assets/images/sponsor/wechat.png": "d5d5d5dad9d7dbd8cf",
   "public:assets/images/sponsor/alipay.png": "8ebbde91bedf93c0e0",
-  "public:assets/images/ad/ad1.webp": "a1b8b68a8e918c8f93"
+  "public:assets/images/ad/ad1.webp": "a1b8b68a8e918c8f93",
+  "public:assets/images/avatar.png": "7050387c7a77bfb0a6",
+  "public:assets/images/avatar.avif": "dcd8d5d1cecabea9a9",
+  "src:assets/images/avatar.png": "6f50377c7a77c3b3aa",
+  "src:content/projects/ayaka-meme-pack/cover.webp": "d7d9dbd3d5d9b2b3b7",
+  "src:content/posts/feature-test-2026/cover.webp": "0667790c697c4d5e5a",
+  "src:assets/images/logo/logo-light.png": "0b0b0b0b0b0b0f0f0f",
+  "src:assets/images/logo/logo-dark.png": "f7f7f7f3f3f3f3f3f3"
 }
