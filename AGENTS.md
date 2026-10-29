@@ -4,6 +4,10 @@
 
 Firefly is an Astro 7 site with Svelte islands and TypeScript configuration. Main source code lives in `src/`: routes in `src/pages`, layouts in `src/layouts`, reusable UI in `src/components`, styles in `src/styles`, content in `src/content`, helpers in `src/utils`, and Markdown/HTML plugins in `src/plugins`. Site configuration is split across `src/config` with matching type definitions in `src/types`; prefer imports from `@/config` when available. Static files served directly belong in `public`, source-managed images in `src/assets`, docs in `docs` and `Firefly-Docs`, and automation in `scripts`.
 
+## Content Authoring
+
+Before creating or editing posts, projects, dynamics, gallery albums, or special pages, read `docs/WRITING_GUIDE.md`.
+
 ## Build, Test, and Development Commands
 
 Use `pnpm`; the `preinstall` script enforces it.
