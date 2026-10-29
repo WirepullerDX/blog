@@ -95,12 +95,23 @@ export const siteConfig: SiteConfig = {
 	// 如果启用了OpenGraph图片功能，数组中需要包含png格式的favicon图标
 	favicon: [
 		{
+			// 放在首位，Layout 会取第一张 png 作为 apple-touch-icon
+			src: "/favicon/avatar-180.png",
+			sizes: "180x180",
+		},
+		{
+			src: "/favicon/avatar-192.png",
+			sizes: "192x192",
+		},
+		{
+			src: "/favicon/avatar-128.png",
+			sizes: "128x128",
+		},
+		{
 			// 图标文件路径
-			src: "/favicon/firefly-32.png",
-			// 可选，指定主题 'light' | 'dark'
-			// theme: "light",
+			src: "/favicon/avatar-32.png",
 			// 可选，图标大小
-			// sizes: "32x32",
+			sizes: "32x32",
 		},
 	],
 
@@ -117,9 +128,9 @@ export const siteConfig: SiteConfig = {
 		// 使用 Astro 图标库时不需要设置 valueDark，图标会自动跟随主题亮暗色切换
 		logo: {
 			type: "image",
-			value: "assets/images/logo/firefly-light.png",
-			valueDark: "assets/images/logo/firefly-dark.png",
-			alt: "🍀",
+			value: "assets/images/logo/logo-light.png",
+			valueDark: "assets/images/logo/logo-dark.png",
+			alt: "阿杰の妙妙屋",
 		},
 		// 导航栏标题
 		title: "JieGe Blog",
