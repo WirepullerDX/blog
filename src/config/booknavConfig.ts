@@ -145,12 +145,6 @@ export const booknavConfig: BooknavGroup[] = [
 				icon: "https://docs-firefly.cuteleaf.cn/logo.png",
 				weight: 10,
 			},
-			{
-				title: "夏夜流萤",
-				url: "https://blog.cuteleaf.cn",
-				desc: "飞萤之火自无梦的长夜亮起",
-				weight: 9,
-			},
 		],
 	},
 ];

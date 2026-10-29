@@ -52,19 +52,20 @@ export const siteConfig: SiteConfig = {
 
 	// 站点描述
 	description:
-		"一个使用 Astro 构建的静态个人博客，主题为 Firefly，记录并分享个人的技术探索。",
+		"阿杰的个人博客，记录 NAS 自托管、Docker 容器化与网络代理的实践和踩坑。",
 
 	// 站点关键词
 	keywords: [
-		"Firefly",
-		"Fuwari",
+		"自托管",
+		"NAS",
+		"Docker",
+		"容器化",
+		"网络",
+		"代理",
+		"Cloudflare",
 		"Astro",
-		"ACGN",
 		"博客",
-		"技术博客",
-		"静态博客",
-		"个人博客",
-		"杰哥の妙妙屋",
+		"阿杰",
 	],
 
 	// 主题色
