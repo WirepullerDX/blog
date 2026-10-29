@@ -12,7 +12,7 @@ export const profileConfig: ProfileConfig = {
 	name: "阿杰",
 
 	// 个人签名
-	bio: "自托管实践者：NAS 做存储，Docker 做分发，网络做连接。",
+	bio: "自托管 · 前后端 · AI 工作流，把服务跑在自己手里。",
 
 	// 链接配置
 	// 已经预装的图标集：fa7-brands，fa7-regular，fa7-solid，material-symbols，simple-icons

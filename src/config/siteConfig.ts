@@ -52,19 +52,21 @@ export const siteConfig: SiteConfig = {
 
 	// 站点描述
 	description:
-		"阿杰的个人博客，记录 NAS 自托管、Docker 容器化与网络代理的实践和踩坑。",
+		"阿杰的个人博客：自托管与容器化、前后端和安卓开发、AI 工作流与 Agent 实践。",
 
 	// 站点关键词
 	keywords: [
 		"自托管",
 		"NAS",
 		"Docker",
-		"容器化",
-		"网络",
-		"代理",
+		"VPS",
+		"前后端开发",
+		"安卓开发",
+		"AI 工作流",
+		"ComfyUI",
+		"Agent",
+		"LLM",
 		"Cloudflare",
-		"Astro",
-		"博客",
 		"阿杰",
 	],
 
