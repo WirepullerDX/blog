@@ -3,7 +3,7 @@
 > 适用仓库：`WirepullerDX/blog`
 > 主题：Firefly 6.16.8 / Astro 7
 > 站点：`https://blog.rxcdjg.dpdns.org`
-> 最后更新：2026-10-29
+> 最后更新：2026-10-30
 
 
 本文档面向两个读者：
@@ -41,7 +41,8 @@
 15. [内容模板索引](#15-内容模板索引)
 16. [发布检查清单](#16-发布检查清单)
 17. [常见问题](#17-常见问题)
-18. [维护记录](#18-维护记录)
+18. [进阶语法补充](#18-进阶语法补充)
+19. [维护记录](#19-维护记录)
 
 ---
 
@@ -156,19 +157,30 @@ src/content/posts/my-first-post/
 └── cover.webp
 ```
 
-路由由内容路径决定，例如：
+默认路由由内容路径决定，例如：
 
 ```text
 src/content/posts/my-first-post/index.md
 → /posts/my-first-post/
 ```
 
+如果设置了 frontmatter `slug`，则以 slug 为准：
+
+```yaml
+slug: "my-custom-url"
+```
+
+```text
+src/content/posts/my-first-post/index.md
+→ /posts/my-custom-url/
+```
+
 `pnpm new-post` 默认只生成单个 `src/content/posts/my-new-post.md`。如果文章需要本地封面，推荐手动创建同名目录，把文件移动为 `src/content/posts/my-new-post/index.md`，再放入 `cover.webp`。
 
 注意：
 
-- 不要在 frontmatter 里依赖 `slug` 字段，当前项目的文章路由以内容 ID/文件路径为准。`new-post` 脚本生成的 `slug` 字段不会参与路由。
-- 发布后不要修改目录名。
+- `slug` 可自定义 URL；不设置时使用文件/目录路径。
+- 发布后不要修改目录名或 `slug`。
 - 不要在已有文章目录中混放无关文件。
 - 文章正文不需要手写 H1，页面会自动使用 frontmatter 的 `title` 作为 H1。
 
@@ -205,6 +217,7 @@ licenseUrl: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
 | `image` | 推荐 | string | 封面路径；本地封面写 `./cover.webp` |
 | `tags` | 否 | string[] | 标签数组，避免同义标签混用 |
 | `category` | 否 | string/null | 单分类，不要塞多个分类 |
+| `slug` | 否 | string | 自定义 URL 路径；不设置则按文件/目录路径生成 |
 | `draft` | 否 | boolean | `true` 时生产构建隐藏，开发环境仍可见 |
 | `pinned` | 否 | boolean | 置顶；首页排序优先于普通文章 |
 | `author` | 否 | string | 留空显示资料卡名称 |
@@ -961,8 +974,286 @@ pnpm preview
 
 ---
 
-## 18. 维护记录
+## 18. 进阶语法补充
+
+本节补充官方演示页中出现、但基础写作不常接触的语法。以下内容以当前仓库 `Firefly 6.16.8` 的插件和组件为准。
+
+### 18.1 自定义 URL（Slug）
+
+默认使用文件/目录路径作为 URL；需要短链接时，在 frontmatter 中设置 `slug`：
+
+```yaml
+---
+title: "如何使用 Firefly"
+slug: "how-to-use-firefly"
+---
+```
+
+文件：
+
+```text
+src/content/posts/如何使用Firefly/index.md
+```
+
+生成地址：
+
+```text
+/posts/how-to-use-firefly/
+```
+
+规则：
+
+- `slug` 优先级高于文件路径
+- 只使用英文、数字和连字符
+- 发布后不要修改，否则旧链接和搜索结果会失效
+- 目录名仍然建议使用稳定的 kebab-case，避免只依赖 slug
+
+### 18.2 Wiki Link 内部链接
+
+Firefly 支持 Obsidian 风格的内部链接。
+
+单独成段时渲染为文章卡片：
+
+```markdown
+[[guide/firefly-layout-system]]
+```
+
+正文中间渲染为普通链接：
+
+```markdown
+请参阅 [[guide/firefly-layout-system]] 了解详情。
+```
+
+自定义显示文字：
+
+```markdown
+请参阅 [[guide/firefly-layout-system|布局系统说明]]。
+```
+
+链接到其他文章的标题：
+
+```markdown
+[[guide/firefly-layout-system#相关链接|查看相关链接]]
+```
+
+链接到本页标题：
+
+```markdown
+[[#本节标题|跳转到本节]]
+```
+
+链接目标解析顺序：
+
+1. frontmatter `slug`
+2. 相对 `src/content/posts` 的文件路径
+3. 全站唯一的裸文件名
+
+推荐使用文件路径，例如 `[[guide/firefly-layout-system]]`。如果使用 Obsidian 写作，把 `src/content/posts` 作为 vault，并把内部链接类型设置为“基于仓库根目录的绝对路径”。
+
+不支持附件嵌入：
+
+```markdown
+![[image.png]]
+```
+
+代码块和行内代码里的 `[[...]]` 不会转换。
+
+### 18.3 MDX 与内置组件
+
+文章可以是 `.md`，也可以是 `.mdx`。只有在需要 JSX 组件或动态内容时才使用 MDX。
+
+```mdx
+---
+title: "MDX 示例"
+published: 2026-10-30
+---
+
+import {
+  Badge,
+  StepItem,
+  Steps,
+  TabGroup,
+  Timeline,
+  TimelineItem,
+} from "@components/firefly-mdx";
+
+## 步骤条
+
+<Steps>
+  <StepItem title="安装依赖">运行 `pnpm install`。</StepItem>
+  <StepItem title="启动开发">运行 `pnpm dev`。</StepItem>
+</Steps>
+
+## 时间线
+
+<Timeline>
+  <TimelineItem date="2026-10-30" title="博客上线" type="tip" icon="rocket">
+    站点正式上线。
+  </TimelineItem>
+</Timeline>
+
+<Badge type="warning">注意</Badge>
+```
+
+可用组件：
+
+| 组件 | 用途 |
+|---|---|
+| `TabGroup` | 标签页，可放代码块、文字、图片 |
+| `Timeline` / `TimelineItem` | 时间线 |
+| `Steps` / `StepItem` | 编号步骤条 |
+| `Badge` | 行内状态徽章 |
+
+`TabGroup` 是交互组件，通常需要 `client:load`：
+
+````mdx
+<TabGroup labels={["npm", "pnpm"]} client:load>
+
+```bash
+npm install
+```
+
+```bash
+pnpm install
+```
+
+</TabGroup>
+````
+
+MDX 注意事项：
+
+- import 必须放在 frontmatter 之后、正文之前
+- MDX 中 HTML 按 JSX 解析，`class` 要写成 `className`
+- 普通文章优先使用 `.md`，降低构建和组件出错概率
+- MDX 不适合作为“默认文章格式”
+
+### 18.4 剧透文本
+
+```markdown
+内容 :spoiler[被隐藏了 **哈哈**]！
+```
+
+剧透里的 Markdown 格式仍然会生效。适合隐藏剧情、答案或不适合直接展开的补充信息。
+
+### 18.5 嵌入视频
+
+直接粘贴 iframe：
+
+```html
+<iframe
+  width="100%"
+  height="468"
+  src="https://www.youtube.com/embed/VIDEO_ID"
+  title="视频播放器"
+  frameborder="0"
+  allowfullscreen
+></iframe>
+```
+
+B 站：
+
+```html
+<iframe
+  width="100%"
+  height="468"
+  src="//player.bilibili.com/player.html?bvid=BV_ID&p=1&autoplay=0"
+  scrolling="no"
+  border="0"
+  frameborder="no"
+  allowfullscreen="true"
+></iframe>
+```
+
+注意：
+
+- 第三方 iframe 可能受网络、隐私设置或地区限制
+- 重要视频最好同时提供普通链接
+- 不要把视频文件本身塞进 Git 仓库；大视频优先放 R2
+
+### 18.6 Expressive Code 进阶
+
+代码块支持标题、行号、折叠、换行和行标记：
+
+| 选项 | 作用 |
+|---|---|
+| `title="file.ts"` | 显示文件标题 |
+| `showLineNumbers` | 显示行号 |
+| `startLineNumber=5` | 设置起始行号 |
+| `collapse={1-5}` | 折叠指定行 |
+| `wrap` | 自动换行 |
+| `{1,4,7-8}` | 高亮指定行 |
+| `ins={3-4}` | 标记新增行 |
+| `del={2}` | 标记删除行 |
+| `diff` | 使用 diff 风格 |
+
+示例：
+
+````markdown
+```ts title="example.ts" showLineNumbers {2} ins={3}
+const ready = true;
+console.log("这一行高亮");
+console.log("这一行标记为新增");
+```
+````
+
+移动端长长一行会横向滚动，这是正常行为；需要自动换行时加 `wrap`。
+
+### 18.7 Mermaid 更多图表类型
+
+除了流程图，Firefly 还支持构建时渲染：
+
+- `sequenceDiagram` 时序图
+- `erDiagram` ER 图
+- `classDiagram` 类图
+- `stateDiagram-v2` 状态图
+- `xychart-beta` 图表
+- `pie` 饼图
+- `gantt` 甘特图
+- `mindmap` 思维导图
+- `timeline` 时间线
+- `journey` 用户旅程图
+- `gitGraph` Git 图
+- `kanban` 看板
+- `sankey-beta` Sankey 图
+
+图表在构建阶段生成静态 SVG，不需要浏览器加载 Mermaid 运行时。语法错误可能导致构建失败，提交前必须跑 `pnpm check` 和 `pnpm build`。
+
+### 18.8 KaTeX 化学公式
+
+除普通数学公式外，主题已加载 `mhchem` 扩展：
+
+```markdown
+$$
+\ce{CH4 + 2O2 -> CO2 + 2H2O}
+$$
+```
+
+矩阵、求和、极限、化学式等都可以直接使用 KaTeX 语法。
+
+### 18.9 Callout 的扩展写法
+
+当前配置使用 GitHub 主题，支持自定义标题：
+
+```markdown
+> [!NOTE] 自定义标题
+> 正文内容。
+```
+
+支持的基础类型：
+
+```text
+NOTE / TIP / IMPORTANT / WARNING / CAUTION
+```
+
+主题本身支持 `github`、`obsidian`、`vitepress`、`docusaurus`，但切换主题需要修改 `siteConfig.ts` 并重启开发服务器。当前仓库启用了 GitHub 主题，不建议为了排版随意切换。
+
+Docusaurus 的 `:::tip` 容器不能嵌套 `::: code-group`。遇到这种情况，改用 MDX 的 `<TabGroup>`。
+
+---
+
+## 19. 维护记录
 
 | 日期 | 变更 |
 |---|---|
 | 2026-10-29 | 初版：文章、动态、项目、相册、特殊页面、SEO、流程和 AI Agent 规范 |
+| 2026-10-30 | 补充 Slug、Wiki Link、MDX、剧透、视频、Expressive Code、Mermaid、KaTeX 和 Callout 进阶语法 |
