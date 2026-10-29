@@ -108,6 +108,8 @@ if (title) {
 		: siteConfig.title;
 }
 
+const cloudflareAnalyticsToken = "5c360386a0b44a5ba53ebe2e803790dd";
+
 const favicons: Favicon[] =
 	siteConfig.favicon.length > 0 ? siteConfig.favicon : defaultFavicons;
 // apple-touch-icon：优先取 favicon 中的 png，否则取第一个
@@ -254,6 +256,15 @@ const ogImageAlt = propsOgImageAlt ?? pageTitle;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content={`hsl(${siteConfig.themeColor.hue} 90% 60%)`} />
+
+    <!-- Cloudflare Web Analytics -->
+    <script
+      is:inline
+      type="module"
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon={JSON.stringify({ token: cloudflareAnalyticsToken })}
+    ></script>
+    <!-- End Cloudflare Web Analytics -->
     {
       favicons.map((favicon) => (
         <link
