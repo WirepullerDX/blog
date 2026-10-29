@@ -1,10 +1,10 @@
 ---
-title: "博客功能测试：从 R2 图床到代码块"
+title: "博客功能测试：R2、MDX 与进阶语法"
 published: 2026-10-29
-updated: 2026-10-29
-description: "一篇集中验证 Firefly 博客各项渲染能力的测试文章，覆盖 R2 远程图片、图片网格、数学公式、Mermaid、代码组、提醒框、表格和 GitHub 卡片。"
+updated: 2026-10-30
+description: "一篇集中验证 Firefly 博客渲染能力的测试文章，覆盖 R2 图片、MDX 组件、Wiki Link、剧透、代码块、数学公式、Mermaid、表格和 GitHub 卡片。"
 image: "./cover.webp"
-tags: ["测试", "Astro", "Cloudflare", "R2", "Markdown"]
+tags: ["测试", "Astro", "Cloudflare", "R2", "MDX", "Markdown"]
 category: "站点维护"
 draft: false
 pinned: false
@@ -16,9 +16,20 @@ licenseName: "CC BY-NC-SA 4.0"
 licenseUrl: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
 ---
 
+import {
+  Badge,
+  StepItem,
+  Steps,
+  TabGroup,
+  Timeline,
+  TimelineItem,
+} from "@components/firefly-mdx";
+
 ## 这篇文章测试什么
 
 这是一篇用于验收博客渲染和部署链路的测试文章。它会把常见的内容类型尽量放在同一页里，方便一次性检查样式、脚本和远程资源。
+
+<Badge type="tip">MDX</Badge> <Badge type="note">进阶语法</Badge> <Badge type="warning">测试文章</Badge>
 
 > [!NOTE]
 > 文章封面来自本地 `src` 目录，交给 Astro 优化；正文图片来自 Cloudflare R2 自定义域名。两者走的是完全不同的图片路径。
@@ -55,7 +66,7 @@ licenseUrl: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
 
 - [x] 已验证 R2 自定义域名
 - [x] 已验证相册远程图片
-- [ ] 待验证线上缓存规则
+- [x] 已验证 Cloudflare Pages 自动部署
 - [ ] 待验证移动端灯箱手势
 
 ## 引用与表格
@@ -68,8 +79,41 @@ licenseUrl: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
 | --- | --- | --- |
 | R2 图片 | 通过 | `img.rxcdjg.dpdns.org` 返回 200 |
 | 相册 | 通过 | 使用 `urls.txt` 读取远程图片 |
-| 项目页 | 待验证 | 封面为本地 WebP |
-| 评论 | 待验证 | 需要 Twikoo 在线环境 |
+| 项目页 | 通过 | 封面为本地 WebP |
+| 评论 | 通过 | Twikoo 已能加载 |
+
+## Wiki Link 内部链接
+
+Firefly 支持 Obsidian 风格的 Wiki Link。单独成段时，会读取目标文章的信息并渲染为卡片：
+
+[[site-build-log-2026]]
+
+正文中也可以使用：请参阅 [[encrypted-test-2026|加密文章测试]]，或者在页面内跳转到 [[#数学公式]]。
+
+## 剧透文本
+
+剧透内容默认隐藏，点击后展开：:spoiler[这是一段被隐藏的 **测试文本**。]
+
+## MDX 内置组件
+
+### 步骤条
+
+<Steps>
+  <StepItem title="准备文章">创建 `index.mdx` 和封面。</StepItem>
+  <StepItem title="运行构建" type="tip" icon="rocket">执行 `pnpm build` 检查静态输出。</StepItem>
+  <StepItem title="检查页面">确认组件和远程图片都正常加载。</StepItem>
+</Steps>
+
+### 时间线
+
+<Timeline>
+  <TimelineItem date="2026-10-29" title="博客上线" type="tip" icon="rocket">
+    站点正式部署到 Cloudflare Pages。
+  </TimelineItem>
+  <TimelineItem date="2026-10-30" title="验证进阶语法" icon="code">
+    补充 MDX、Wiki Link 和更多 Markdown 能力。
+  </TimelineItem>
+</Timeline>
 
 ## 数学公式
 
@@ -99,7 +143,15 @@ a + 2b \\
 \end{bmatrix}
 $$
 
+化学方程式：
+
+$$
+\mathrm{CH_4 + 2O_2 \rightarrow CO_2 + 2H_2O}
+$$
+
 ## Mermaid 图表
+
+### 流程图
 
 ```mermaid
 flowchart LR
@@ -110,11 +162,24 @@ flowchart LR
   D --> F[img.rxcdjg.dpdns.org]
 ```
 
+### 时序图
+
+```mermaid
+sequenceDiagram
+  participant User as 读者
+  participant Pages as Cloudflare Pages
+  participant R2 as R2 图片
+  User->>Pages: 打开文章
+  Pages-->>User: 返回静态 HTML
+  User->>R2: 请求远程图片
+  R2-->>User: 返回 WebP
+```
+
 ## 代码与代码组
 
-普通 TypeScript 代码块：
+带标题、行号和行标记的 TypeScript 代码块：
 
-```ts
+```ts title="feature-check.ts" showLineNumbers {2} ins={3}
 type TestResult = "pass" | "fail";
 
 function checkImage(status: number): TestResult {
@@ -124,7 +189,7 @@ function checkImage(status: number): TestResult {
 console.log(checkImage(200));
 ```
 
-带标签页的代码组：
+带标签页的 Markdown 代码组：
 
 ::: code-group labels=[npm, pnpm]
 
@@ -138,12 +203,43 @@ pnpm install
 
 :::
 
+### MDX TabGroup
+
+MDX 中也可以使用交互式标签页：
+
+<TabGroup labels={["npm", "pnpm"]} client:load>
+
+```bash
+npm install
+```
+
+```bash
+pnpm install
+```
+
+</TabGroup>
+
+## 视频嵌入示例
+
+视频通过 iframe 嵌入，以下只展示语法，不实际加载外部播放器：
+
+```html
+<iframe
+  width="100%"
+  height="468"
+  src="https://www.youtube.com/embed/VIDEO_ID"
+  title="视频播放器"
+  frameborder="0"
+  allowfullscreen
+></iframe>
+```
+
 ## 提醒框
 
 > [!TIP]
 > 提示框用于补充说明，不打断正文阅读。
 
-> [!WARNING]
+> [!WARNING] 生产环境注意
 > 生产环境请关闭 R2 的 `r2.dev` 公共开发地址，使用自定义域名。
 
 ## GitHub 卡片
@@ -155,10 +251,12 @@ pnpm install
 - [ ] 页面无控制台报错
 - [ ] R2 图片能加载并打开灯箱
 - [ ] 图片网格在手机端不溢出
+- [ ] Wiki Link 卡片正常
+- [ ] MDX 组件正常渲染
 - [ ] 数学公式、Mermaid 和代码组正常渲染
 - [ ] GitHub 卡片能显示仓库信息
 - [ ] 评论区和访问量统计正常
 
 ## 小结
 
-如果这些内容都能正常显示，说明首页、文章页、R2 图片、相册、项目、Markdown 扩展和代码高亮的主链路基本跑通了。
+如果这些内容都能正常显示，说明首页、文章页、R2 图片、相册、项目、MDX、Wiki Link、Markdown 扩展和代码高亮的主链路基本跑通了。
