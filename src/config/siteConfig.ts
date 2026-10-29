@@ -118,7 +118,7 @@ export const siteConfig: SiteConfig = {
 			alt: "阿杰の妙妙屋",
 		},
 		// 导航栏标题
-		title: "JieGe Blog",
+		title: "阿杰の妙妙屋",
 		// 全宽导航栏，导航栏是否占满屏幕宽度
 		widthFull: false,
 		// 导航菜单对齐方式，left：左对齐，center：居中
