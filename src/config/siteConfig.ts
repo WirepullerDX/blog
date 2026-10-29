@@ -92,25 +92,10 @@ export const siteConfig: SiteConfig = {
 	},
 
 	// Favicon 配置
-	// 如果启用了OpenGraph图片功能，数组中需要包含png格式的favicon图标
+	// 浏览器标签页图标
 	favicon: [
 		{
-			// 放在首位，Layout 会取第一张 png 作为 apple-touch-icon
-			src: "/favicon/avatar-180.png",
-			sizes: "180x180",
-		},
-		{
-			src: "/favicon/avatar-192.png",
-			sizes: "192x192",
-		},
-		{
-			src: "/favicon/avatar-128.png",
-			sizes: "128x128",
-		},
-		{
-			// 图标文件路径
-			src: "/favicon/avatar-32.png",
-			// 可选，图标大小
+			src: "/favicon/logo-dark.png",
 			sizes: "32x32",
 		},
 	],

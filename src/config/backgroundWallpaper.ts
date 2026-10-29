@@ -73,17 +73,21 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			// 是否启用主页横幅文字
 			enable: true,
 			// 主页横幅主标题
-			title: "Lovely firefly!",
+			title: "我叫阿杰",
 			// 主页横幅主标题字体大小
-			titleSize: "4.5rem",
+			titleSize: "4rem",
 			// 主页横幅副标题
 			subtitle: [
-				"In Reddened Chrysalis, I Once Rest",
-				"From Shattered Sky, I Free Fall",
-				"Amidst Silenced Stars, I Deep Sleep",
-				"Upon Lighted Fyrefly, I Soon Gaze",
-				"From Undreamt Night, I Thence Shine",
-				"In Finalized Morrow, I Full Bloom",
+				"他们都叫我杰哥。",
+				"我的博客还蛮大的，欢迎常来逛逛。",
+				"我常常帮助一些不会部署的人。",
+				"这个报错，我看你完全是不懂喔。",
+				"听你这么说，你很勇喔，敢不改备份就动配置。",
+				"这项目才几行就报错，真的太逊了。",
+				"自托管、AI 工作流，多少都会一点。",
+				"代码能跑就先别动，跑不了就重启。",
+				"我这里刚好有一些好用的工具，分享给你们。",
+				"来啦，点进来看就知道了。",
 			],
 			// 主页横幅副标题字体大小
 			subtitleSize: "1.5rem",
