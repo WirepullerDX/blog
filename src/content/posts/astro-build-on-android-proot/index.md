@@ -214,7 +214,7 @@ $ for u in /posts/astro-build-on-android-proot/ /og/astro-build-on-android-proot
 /rss.xml                                   200
 ```
 
-自己生成的 1600×900 封面 `cover.webp` 是 48102 字节，构建后由 Astro 输出成 `_astro/cover.*.webp`，预览里取回来同样是 48102 字节、HTTP 200，说明封面确实被当作图片资源处理了，不是被跳过的静态文件引用。`/og/astro-build-on-android-proot.png` 返回 200 则说明 `siteConfig.post.generateOgImages` 为 `true` 时构建会真的产出分享图。反过来，`/posts/astro-build-on-android-proot`（不带结尾斜杠）在这个静态预览里是 404，别把这个 404 当成文章没生成。
+自己生成的 1600×900 封面 `cover.webp` 是 48102 字节，构建后由 Astro 输出成 `_astro/cover.*.webp`，预览里取回来同样是 48102 字节、HTTP 200，说明封面确实被当作图片资源处理了，不是被跳过的静态文件引用。`/og/astro-build-on-android-proot.png` 返回 200 则说明 `siteConfig.post.generateOgImages` 为 `true` 时构建会真的产出分享图。反过来，`/posts/astro-build-on-android-proot`（不带结尾斜杠）在本地静态预览里是 404，别把这个 404 当成文章没生成；同一路径在 Cloudflare Pages 的预览部署上返回的是 `308` 并跳到带斜杠的地址，两条链路行为不一样，别拿本地的 404 去判断线上。
 
 > [!WARNING]
 > 下面这些在这个环境里没有凭据或没有执行，所以本文不声称它们通过：
