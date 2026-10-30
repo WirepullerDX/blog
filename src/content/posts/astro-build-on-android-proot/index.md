@@ -1,7 +1,7 @@
 ---
 title: "在 Android 手机的 PRoot Ubuntu 里跑通这个 Astro 博客的安装、检查与构建"
 published: 2026-10-30
-description: "不打开电脑，只用一台 Android 13 手机上的 PRoot Ubuntu 用户态，把这个 Astro 7 博客仓库从零克隆并跑到生产构建：四条实测命令、用时间戳反推的耗时，以及每一步没验证到的地方。"
+description: "不打开电脑，只用一台 Android 13 手机上的 PRoot Ubuntu 用户态，把这个 Astro 7 博客仓库从零克隆并跑到生产构建：五条实测命令、用时间戳反推的耗时，以及每一步没验证到的地方。"
 image: "./cover.webp"
 tags: ["Astro", "Android", "PRoot", "pnpm", "构建"]
 category: "技术实践"
@@ -16,7 +16,7 @@ licenseUrl: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
 
 我想验证的问题只有一句话：不打开电脑，只靠一台 Android 手机，能不能把这个博客仓库从零克隆下来，并跑完安装、静态检查、类型检查和生产构建。
 
-这个站是 Astro 7 + Firefly 主题，仓库在 `master` 分支、只有 1 个提交、单一远程 `origin`、3 篇文章目录，同时放着 `wrangler.jsonc` 和 `vercel.json` 两套部署配置（后者的 `buildCommand` 就是 `pnpm build`）。也就是说手机端能负责的只是「把 `dist` 产出」，上线仍然交给外部平台——这也决定了本文的范围止于构建，不含部署。
+这个站是 Astro 7 + Firefly 主题，仓库在 `master` 分支、只有 1 个提交、单一远程 `origin`、3 篇文章目录，同时放着 `wrangler.jsonc` 和 `vercel.json` 两套部署配置（后者的 `buildCommand` 就是 `pnpm build`）。也就是说手机端能负责的只是「把 `dist` 产出」，上线仍然交给外部平台——这也决定了本文的范围止于「跑出 `dist` 并在本地预览」，不含部署。
 
 手机是 Android 13，上面套了一层 PRoot 式的 Ubuntu 24.04.3 LTS 用户态。下面三条输出足以判断这不是虚拟机，而是挂在 Android 应用数据目录里的 PRoot 用户态：
 
@@ -228,8 +228,8 @@ $ for u in /posts/astro-build-on-android-proot/ /og/astro-build-on-android-proot
 
 ## 总结
 
-四步都跑通了：安装、`pnpm check`、`pnpm type-check`、`pnpm build` 在一台 Android 手机的 PRoot Ubuntu 用户态里全部完成，`dist` 产物齐全。
+五步都跑通了：安装、`pnpm check`、`pnpm type-check`、`pnpm build`、`pnpm preview` 在一台 Android 手机的 PRoot Ubuntu 用户态里全部完成，`dist` 产物齐全，文章路由和封面在本地预览里都是 200。
 
 真正的限制不在「能不能跑」，而在两件事：一是内存余量有限，得把节奏放慢、避免并发；二是提交、推送、部署、对象存储上传这些环节在这个环境里没有凭据，只能留到有授权的环境再做，不能凭一次成功构建就宣布上线。
 
-下一步是把 `pnpm preview` 与一次真实部署补上。这个站最初从 Firefly 模板搭起来的过程，写在[把博客搭到 Cloudflare：从 Firefly 模板到 R2、Twikoo 和自动部署](/posts/site-build-log-2026/)里。
+下一步只剩真实部署这一环：推送、PR、Cloudflare Pages 预览。这个站最初从 Firefly 模板搭起来的过程，写在[把博客搭到 Cloudflare：从 Firefly 模板到 R2、Twikoo 和自动部署](/posts/site-build-log-2026/)里。
