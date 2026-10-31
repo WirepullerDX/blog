@@ -1,5 +1,5 @@
 {
-	"name": "blog-astro-test",
+	"name": "blog-esa-prod",
 	"installCommand": "pnpm install --frozen-lockfile",
 	"buildCommand": "pnpm build",
 	"assets": {
