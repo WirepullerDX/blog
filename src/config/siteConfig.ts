@@ -48,7 +48,7 @@ export const siteConfig: SiteConfig = {
 	subtitle: "我的家还蛮大的",
 
 	// 站点 URL
-	site_url: "https://blog.rxcdjg.dpdns.org",
+	site_url: "https://astro.rxcdjg.cn",
 
 	// 站点描述
 	description:
