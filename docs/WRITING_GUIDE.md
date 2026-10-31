@@ -2,8 +2,8 @@
 
 > 适用仓库：`WirepullerDX/blog`
 > 主题：Firefly 6.16.8 / Astro 7
-> 站点：`https://blog.rxcdjg.dpdns.org`
-> 最后更新：2026-10-30
+> 站点：`https://blog.rxcdjg.cn`
+> 最后更新：2026-11-01
 
 
 本文档面向两个读者：
@@ -19,7 +19,7 @@
 新建项目：src/content/projects/<slug>/index.md + cover.webp
 新建相册：src/config/galleryConfig.ts + public/gallery/<album-id>/
 发布前：pnpm check → pnpm build → pnpm preview
-发布：commit → push master → Cloudflare Pages 自动部署
+发布：commit → push esa → ESA Pages 自动部署（master 为 Cloudflare 存档）
 ```
 
 ## 目录
@@ -81,7 +81,7 @@
 | `src/config/friendsConfig.ts` | 友链列表 |
 | `src/config/commentConfig.ts` | Twikoo 评论配置 |
 | `src/layouts/Layout.astro` | 全站 `<head>`、统计分析脚本等 |
-| `public/_headers` | Cloudflare Pages 安全响应头 |
+| ESA 控制台 | HSTS、X-Frame-Options、X-Content-Type-Options、Referrer-Policy、Permissions-Policy 等响应头 |
 | `docs/` | 项目文档 |
 | `dist/` | 构建产物，自动生成，不要手改 |
 
@@ -91,7 +91,7 @@
 
 ### 3.1 环境要求
 
-- Node.js `>=22.23.0`，Cloudflare Pages 固定使用 `22.23.0`
+- Node.js `>=22.23.0`；ESA Pages 构建以 `package.json` 的 `engines` 为准，当前实测使用 Node.js `24.13.0`
 - pnpm `11.22.0`
 - Git
 
@@ -331,7 +331,7 @@ $$
 ```mermaid
 flowchart LR
   A[Markdown] --> B[Astro]
-  B --> C[Cloudflare Pages]
+  B --> C[ESA Pages]
 ```
 ````
 
@@ -569,7 +569,7 @@ public/gallery/2026-travel/
 2. 目录中的 `cover.*`
 3. 第一张图片
 
-本地相册图片不会经过 Astro 图片优化，并且会占用 Cloudflare Pages 的文件数量和单文件大小限制。
+本地相册图片不会经过 Astro 图片优化，并且会占用 ESA Pages 的文件数量和单文件大小限制（当前限制为 2000 个文件、单文件 25 MB）。
 
 ### 9.3 R2 远程图片
 
@@ -697,7 +697,7 @@ cf-cache-status: HIT
 
 ### 11.6 分享卡片
 
-当前 `siteConfig.post.share: true`，文章分享按钮开启。`siteConfig.post.generateOgImages: false`，不自动生成 1200×630 OG 图，分享卡片使用文章封面。
+当前 `siteConfig.post.share: true`，文章分享按钮开启。`siteConfig.post.generateOgImages: true`，构建时会生成 1200×630 OG 图；分享卡片优先使用生成图，没有生成条件时使用文章封面。
 
 如果文章没有封面，分享预览可能缺少图片；重要文章应提供封面。
 
@@ -785,13 +785,15 @@ fix
 
 ### 13.3 推送与部署
 
-- 当前生产分支：`master`
-- 推送到 `master` 会触发 Cloudflare Pages 构建
-- Cloudflare Pages 构建命令：`pnpm build`
+- 当前生产分支：`esa`
+- `master` 是 Cloudflare Pages 的存档分支，不再用于生产部署
+- 推送到 `esa` 会触发 ESA Pages 构建
+- ESA Pages 构建命令：`pnpm build`
 - 输出目录：`dist`
-- Node 环境：`22.23.0`
+- Node 环境：以 `package.json` 的 `engines` 为准；当前实测 Node.js `24.13.0`
+- 项目级配置：根目录 `esa.jsonc`
 - 不要设置 `CF_WORKERS`
-- 不要依赖 GitHub Pages workflow；当前部署在 Cloudflare Pages
+- 不要依赖 GitHub Pages workflow；当前部署在 ESA Pages
 
 ### 13.4 回滚
 
@@ -801,13 +803,13 @@ fix
 git revert <commit>
 ```
 
-也可以使用 Cloudflare Pages 控制台回滚到上一次成功部署。
+也可以使用 ESA Pages 控制台回滚到上一次成功部署。
 
-注意：Git 回滚不会删除已经上传到 R2 的图片。R2 对象需要单独处理。
+注意：Git 回滚不会删除已经上传到 R2 的图片或 ESA 上的旧静态文件；R2 对象需要在 R2 控制台处理，旧静态资源需要检查 ESA 缓存/部署。
 
 ### 13.5 Fork 同步
 
-当前仓库是 `CuteLeaf/Firefly` 的公开 fork，使用 GitHub 的一键 Sync fork。
+当前仓库是 `CuteLeaf/Firefly` 的公开 fork。`master` 保留 Cloudflare 存档，不再接收日常提交；上游更新应合并到 `esa`，不要直接改动 `master`。
 
 如果未来要把仓库改成私有，必须先执行 `Leave fork network`，之后会失去一键同步，只能手动添加 upstream 合并。不要在普通写文章任务中更改仓库可见性或 fork 状态。
 
@@ -960,13 +962,9 @@ pnpm preview
 - 确认 Cache Rule 已生效
 - 第二次 GET 应看到 `HIT`
 
-### 为什么控制台有 Cloudflare Analytics 报错？
+### 为什么 ESA 构建后还能访问旧文件？
 
-检查：
-
-- 是否只保留手动 JS 安装的站点
-- 是否还启用了 `rxcdjg.dpdns.org` 的自动设置
-- 自动设置会向子域名注入第二段 beacon
+ESA Pages 可能保留上一版本的静态资源。删除文件后，如果旧路径仍返回 200，先在 ESA 控制台清理缓存或确认该文件是否仍存在于部署产物中。`public/_headers` 已从 ESA 分支移除，ESA 响应头在控制台配置，不由这个文件生效。
 
 ### 为什么密码文章不能当秘密存储？
 
