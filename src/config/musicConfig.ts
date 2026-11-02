@@ -18,7 +18,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 	playMode: "list",
 
 	// 是否显启用歌词
-	showLyrics: false,
+	showLyrics: true,
 
 	// Meting API 配置
 	meting: {
@@ -53,6 +53,20 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				url: "/assets/music/使一颗心免于哀伤-哼唱.mp3",
 				cover: "/assets/music/cover/109951169585655912.webp",
 				lrc: "",
+			},
+			{
+				name: "月声尽，心灯明",
+				artist: "鸣潮先约电台 / jixwang / Cassie Wei",
+				url: "/assets/music/yuesheng-jin-xindeng-ming.mp3",
+				cover: "/assets/music/cover/yuesheng-jin-xindeng-ming.webp",
+				lrc: "/assets/music/lrc/yuesheng-jin-xindeng-ming.lrc",
+			},
+			{
+				name: "远航星的告别",
+				artist: "鸣潮先约电台 / jixwang / Tarokiki / Emi Evans",
+				url: "/assets/music/yuanhangxing-de-gaobie.mp3",
+				cover: "/assets/music/cover/yuanhangxing-de-gaobie.webp",
+				lrc: "/assets/music/lrc/yuanhangxing-de-gaobie.lrc",
 			},
 		],
 	},
