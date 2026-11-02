@@ -6,7 +6,17 @@ Firefly is an Astro 7 site with Svelte islands and TypeScript configuration. Mai
 
 ## Content Authoring
 
-Before creating or editing posts, projects, dynamics, gallery albums, or special pages, read `docs/WRITING_GUIDE.md`.
+Before creating or editing posts, projects, dynamics, gallery albums, or special pages, read `docs/WRITING_GUIDE.md`. A ready-to-use content task prompt is available at `docs/AGENT_CONTENT_PROMPT.md`.
+
+## Deployment & Branching
+
+- Production branch is `esa`.
+- `master` is a frozen Cloudflare Pages archive. Never base content work on it or open PRs against it.
+- Create content branches from `origin/esa`; PR base must be `esa`.
+- ESA Pages builds `esa` automatically using `esa.jsonc`.
+- Do not run `wrangler pages` commands; `wrangler` is only for authorized R2 uploads.
+- Do not add `public/_headers`; security headers and CSP are configured in the ESA console.
+- R2 and Twikoo remain external Cloudflare services and should not be migrated during content tasks.
 
 ## Build, Test, and Development Commands
 
@@ -27,11 +37,11 @@ Biome is the formatter and linter. It uses tabs for indentation and double quote
 
 ## Testing Guidelines
 
-There is no dedicated unit-test framework configured. Before submitting changes, run `pnpm check`, `pnpm type-check`, and `pnpm build` for rendering, content, or generated asset work. For visual or interactive changes, verify with `pnpm dev` or `pnpm preview` and include screenshots in the PR. Name future tests near the feature they cover, using the local file name as the stem.
+There is no dedicated unit-test framework configured. Before submitting changes, run `pnpm check`, `pnpm type-check`, and `pnpm build` for rendering, content, or generated asset work. For content work, use local `pnpm build && pnpm preview`; do not assume an ESA Pages PR preview is available. For visual or interactive changes, verify with `pnpm dev` or `pnpm preview` and include screenshots in the PR. Name future tests near the feature they cover, using the local file name as the stem.
 
 ## Commit & Pull Request Guidelines
 
-Use Conventional Commits, matching the current history: `feat: ...`, `fix: ...`, and `chore: ...`. Keep commits and PRs focused on one concern. PRs should include a concise summary, linked issues when relevant, validation commands run, and screenshots for UI changes. Discuss major features or design changes in an issue or discussion before implementation.
+Use Conventional Commits, matching the current history: `feat: ...`, `fix: ...`, and `chore: ...`. Keep commits and PRs focused on one concern. For content work, open PRs against `esa`, not `master`. PRs should include a concise summary, linked issues when relevant, validation commands run, and screenshots for UI changes. Discuss major features or design changes in an issue or discussion before implementation.
 
 ## Security & Configuration Tips
 

@@ -80,7 +80,9 @@
 | `src/config/galleryConfig.ts` | 相册元数据 |
 | `src/config/friendsConfig.ts` | 友链列表 |
 | `src/config/commentConfig.ts` | Twikoo 评论配置 |
+| `src/config/FooterConfig.html` | 页脚自定义 HTML（备案信息等） |
 | `src/layouts/Layout.astro` | 全站 `<head>`、统计分析脚本等 |
+| `esa.jsonc` | ESA Pages 构建配置（生产分支 `esa`） |
 | ESA 控制台 | HSTS、X-Frame-Options、X-Content-Type-Options、Referrer-Policy、Permissions-Policy 等响应头 |
 | `docs/` | 项目文档 |
 | `dist/` | 构建产物，自动生成，不要手改 |
@@ -536,6 +538,8 @@ link:
 
 ## 9. 相册与 R2
 
+> 当前 R2 图床仍由 Cloudflare 提供，内容任务不要迁移图床，也不要修改现有 R2 域名或对象。
+
 ### 9.1 相册配置
 
 在 `src/config/galleryConfig.ts` 的 `albums` 中添加：
@@ -660,6 +664,8 @@ cf-cache-status: HIT
 文件：`src/content/spec/guestbook.md`
 
 仅写留言规则和说明；实际评论区由全局 Twikoo 配置提供。
+
+当前 Twikoo 仍使用现有 Cloudflare 服务，内容任务不要迁移评论系统，也不要修改 `src/config/commentConfig.ts` 里的地址或 CORS 配置。
 
 ---
 
@@ -792,8 +798,11 @@ fix
 - 输出目录：`dist`
 - Node 环境：以 `package.json` 的 `engines` 为准；当前实测 Node.js `24.13.0`
 - 项目级配置：根目录 `esa.jsonc`
+- PR 的 base 分支是 `esa`，不要向 `master` 创建 PR
 - 不要设置 `CF_WORKERS`
 - 不要依赖 GitHub Pages workflow；当前部署在 ESA Pages
+- ESA Pages 没有与 Cloudflare Pages 完全相同的 PR Preview 流程；本地以 `pnpm build && pnpm preview` 为准
+- 如果 ESA 控制台没有提供可访问的预览地址，报告中明确写“未提供预览”，不要伪造链接
 
 ### 13.4 回滚
 

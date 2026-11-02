@@ -92,7 +92,10 @@ LQIP data is generated into `src/constants/lqips.json` and committed — regener
 
 ## Deployment
 
-- **Vercel** (default, `vercel.json`)
-- **Cloudflare Workers** (`wrangler.jsonc`, set `CF_WORKERS` env var)
-- Static output to `dist/`
+- **ESA Pages** (production): branch `esa`, project config `esa.jsonc`, static output `dist/`
+- `master` is a frozen Cloudflare Pages archive; do not deploy from or commit to it during normal content work
+- Content branches are created from `origin/esa`; PR base is `esa`
+- Do not add `public/_headers`; security headers and CSP are configured in the ESA console
+- R2 and Twikoo remain on Cloudflare and are not migrated in content tasks
+- `wrangler` is only for authorized R2 uploads; do not use `wrangler pages`
 
