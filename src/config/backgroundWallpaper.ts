@@ -36,10 +36,26 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 	 * ],
 	 */
 	src: {
-		// 桌面背景图片
-		desktop: "assets/images/DesktopWallpaper/wuthering-waves-desktop.avif",
-		// 移动背景图片
-		mobile: "assets/images/MobileWallpaper/wuthering-waves-mobile.avif",
+		// 桌面背景图片（轮换）
+		desktop: [
+			"assets/images/DesktopWallpaper/wuthering-waves-desktop-01.avif",
+			"assets/images/DesktopWallpaper/wuthering-waves-desktop-02.avif",
+			"assets/images/DesktopWallpaper/wuthering-waves-desktop-03.avif",
+			"assets/images/DesktopWallpaper/wuthering-waves-desktop-04.avif",
+			"assets/images/DesktopWallpaper/wuthering-waves-desktop-05.avif",
+			"assets/images/DesktopWallpaper/wuthering-waves-desktop-06.avif",
+		],
+		// 移动背景图片（轮换）
+		mobile: [
+			"assets/images/MobileWallpaper/wuthering-waves-mobile-01.avif",
+			"assets/images/MobileWallpaper/wuthering-waves-mobile-02.avif",
+			"assets/images/MobileWallpaper/wuthering-waves-mobile-03.avif",
+			"assets/images/MobileWallpaper/wuthering-waves-mobile-04.avif",
+			"assets/images/MobileWallpaper/wuthering-waves-mobile-05.avif",
+			"assets/images/MobileWallpaper/wuthering-waves-mobile-06.avif",
+			"assets/images/MobileWallpaper/wuthering-waves-mobile-07.avif",
+			"assets/images/MobileWallpaper/wuthering-waves-mobile-08.avif",
+		],
 		// 背景视频播放地址
 		// 支持单个视频路径（字符串）或多个视频循环（数组，参考上面壁纸配置）
 		// 支持远程视频URL，本地视频请放在 public/assets/videos/ 目录下
@@ -113,11 +129,11 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// 壁纸轮播配置，横幅壁纸和全屏壁纸共享，仅在配置多张图片时生效
 		carousel: {
 			// 是否启用壁纸轮播；关闭时保持每次刷新随机显示一张
-			enable: false,
+			enable: true,
 			// 轮播切换间隔（毫秒）
-			interval: 5000,
+			interval: 6000,
 			// 过渡效果: 'fade' 渐变 | 'zoom' 缩放 | 'slide' 滑动 | 'kenburns' 旋转木马
-			transitionEffect: "zoom",
+			transitionEffect: "fade",
 		},
 		// 水波纹动画效果配置，开启会影响页面性能，增加内存占用，请根据自己的喜好开启
 		waves: {
@@ -145,7 +161,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// 图片位置
 		// 支持所有CSS object-position值，如: 'top', 'center', 'bottom', 'left top', 'right bottom', '25% 75%', '10px 20px'..
 		// 如果不知道怎么配置百分百之类的配置，推荐直接使用：'center'居中，'top'顶部居中，'bottom' 底部居中，'left'左侧居中，'right'右侧居中
-		position: "0% 20%",
+		position: "center",
 		// 文章横幅信息："description" 显示描述，"meta" 显示日期、字数和阅读时长
 		postInfo: {
 			mode: "description",
