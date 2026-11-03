@@ -26,5 +26,7 @@
   "src:assets/images/logo/logo-dark.png": "f7f7f7f3f3f3f3f3f3",
   "src:content/posts/site-build-log-2026/cover.webp": "9b9d9584877d252e30",
   "src:content/posts/astro-build-on-android-proot/cover.webp": "1e325e15233d142f46",
-  "public:assets/images/beian.png": "b05c47b2664bc89357"
+  "public:assets/images/beian.png": "b05c47b2664bc89357",
+  "src:assets/images/MobileWallpaper/wuthering-waves-mobile.avif": "62658570759b757491",
+  "src:assets/images/DesktopWallpaper/wuthering-waves-desktop.avif": "7da7cc578cbc4d5e7f"
 }
