@@ -46,6 +46,7 @@
 - 文章 Frontmatter 只必填 `title` 和 `published`。发布时建议按需填写 `description`、`tags`、`category`、`draft`、`author` 和 `comment`。其他字段见[字段规范](WRITING_GUIDE.md#43-字段规范)。
 - 文章语言与站点默认语言不同时填写 `lang`，例如英文文章用 `en`。
 - 提醒框使用 GitHub 语法，例如 `> [!NOTE]`。本站关闭了 Python-Markdown 的 `!!!`、`???` 和 `???+` 语法。折叠写法见[写作指南](WRITING_GUIDE.md#53-提醒框)。
+- 化学式和反应方程式可使用 KaTeX 的 `\ce{}`，示例见[化学公式](WRITING_GUIDE.md#188-katex-化学公式)。
 - 日期按 `Asia/Shanghai` 时区。
 - 已发布文章的 `published` 和 `slug` 不要修改；需要更新时设置 `updated`。
 - 标签和分类优先沿用现有站点的写法，不要随意发明同义标签。
@@ -92,9 +93,6 @@
 
 ## 已知限制
 
-- 当前版本的 KaTeX 化学公式不要使用 `\ce{}`，会显示红色未知命令。
-- 使用普通 KaTeX 写法，例如：
-  `\mathrm{CH_4 + 2O_2 \rightarrow CO_2 + 2H_2O}`
 - `draft: true` 在生产构建中隐藏，开发环境仍可见。
 - Pagefind 搜索必须在 `pnpm build && pnpm preview` 后验证，开发服务器不能完整代表搜索结果。
 - ESA Pages 没有与 Cloudflare Pages 完全相同的 PR Preview 流程，不要假设每个 PR 都有公开预览地址。
