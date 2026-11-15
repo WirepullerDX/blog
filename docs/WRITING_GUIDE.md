@@ -1226,13 +1226,11 @@ console.log("这一行标记为新增");
 
 ### 18.8 KaTeX 化学公式
 
-官方演示页展示了 `mhchem` 的 `\ce{}` 语法，但当前仓库 `Firefly 6.16.9` 实测会把 `\ce` 渲染成红色未知命令。**不要直接依赖 `\ce{}`。**
-
-当前可靠写法是使用普通 KaTeX：
+化学式和反应方程式可以用 KaTeX 的 `mhchem` 扩展书写。用 `\ce{}` 包住方程式，反应箭头写成 `->`。
 
 ```markdown
 $$
-\mathrm{CH_4 + 2O_2 \rightarrow CO_2 + 2H_2O}
+\ce{CH4 + 2O2 -> CO2 + 2H2O}
 $$
 ```
 
