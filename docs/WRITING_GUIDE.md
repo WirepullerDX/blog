@@ -18,8 +18,8 @@
 新建动态：pnpm new-d "内容"
 新建项目：src/content/projects/<slug>/index.md + cover.webp
 新建相册：src/config/galleryConfig.ts + public/gallery/<album-id>/
-发布前：pnpm check → pnpm build → pnpm preview
-发布：commit → push esa → ESA Pages 自动部署（master 为 Cloudflare 存档）
+发布前：pnpm check → pnpm type-check → pnpm build → pnpm preview
+发布：从 origin/esa 建主题分支 → 提交并推送主题分支 → PR 合入 esa → ESA Pages 自动部署
 ```
 
 ## 目录
@@ -188,6 +188,8 @@ src/content/posts/my-first-post/index.md
 
 ### 4.2 完整 Frontmatter 模板
 
+文章只必填 `title` 和 `published`。下方模板展示常用的可选字段，发布时按需填写。
+
 ```yaml
 ---
 title: "文章标题"
@@ -197,6 +199,7 @@ description: "用于文章卡片、搜索结果和分享卡片的简介。"
 image: "./cover.webp"
 tags: ["NAS", "Docker", "自托管"]
 category: "技术实践"
+# lang: "en"
 draft: false
 pinned: false
 author: "阿杰"
@@ -215,11 +218,12 @@ licenseUrl: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
 | `title` | 是 | string | 文章标题，页面 H1 |
 | `published` | 是 | date | 发布日期，建议 `YYYY-MM-DD` 或带时区的 ISO 时间 |
 | `updated` | 否 | date | 最后更新时间，用于“上次编辑”提示 |
-| `description` | 推荐 | string | 卡片、搜索和分享摘要，建议 60–120 个中文字符 |
-| `image` | 推荐 | string | 封面路径；本地封面写 `./cover.webp` |
+| `description` | 否 | string | 建议填写用于卡片、搜索和分享的摘要，约 60–120 个中文字符 |
+| `image` | 否 | string | 建议提供封面，本地封面写 `./cover.webp` |
 | `tags` | 否 | string[] | 标签数组，避免同义标签混用 |
 | `category` | 否 | string/null | 单分类，不要塞多个分类 |
 | `slug` | 否 | string | 自定义 URL 路径；不设置则按文件/目录路径生成 |
+| `lang` | 否 | string | 文章语言与站点默认语言不同时填写，例如英文文章用 `en`。留空时沿用站点语言 |
 | `draft` | 否 | boolean | `true` 时生产构建隐藏，开发环境仍可见 |
 | `pinned` | 否 | boolean | 置顶；首页排序优先于普通文章 |
 | `author` | 否 | string | 留空显示资料卡名称 |
@@ -309,7 +313,7 @@ licenseUrl: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
 > 这是需要小心的事项。
 ```
 
-不要使用当前主题未启用的 Python-Markdown `!!! note` 语法。
+本站关闭了 Python-Markdown 提醒框语法，`!!!`、`???` 和 `???+` 会按普通文本显示。自定义标题和折叠写法见 [Callout 的扩展写法](#189-callout-的扩展写法)。
 
 ### 5.4 数学公式
 
@@ -791,14 +795,8 @@ fix
 
 ### 13.3 推送与部署
 
-- 当前生产分支：`esa`
-- `master` 是 Cloudflare Pages 的存档分支，不再用于生产部署
-- 推送到 `esa` 会触发 ESA Pages 构建
-- ESA Pages 构建命令：`pnpm build`
-- 输出目录：`dist`
-- Node 环境：以 `package.json` 的 `engines` 为准；当前实测 Node.js `24.13.0`
-- 项目级配置：根目录 `esa.jsonc`
-- PR 的 base 分支是 `esa`，不要向 `master` 创建 PR
+- 按 [仓库分支规则](../AGENTS.md#deployment--branching)从 `origin/esa` 建主题分支，通过 PR 合入 `esa` 后由 ESA Pages 部署。
+- 构建命令和输出目录以 [esa.jsonc](../esa.jsonc) 为准，Node 要求见 [package.json](../package.json) 的 `engines`。
 - 不要设置 `CF_WORKERS`
 - 不要依赖 GitHub Pages workflow；当前部署在 ESA Pages
 - ESA Pages 没有与 Cloudflare Pages 完全相同的 PR Preview 流程；本地以 `pnpm build && pnpm preview` 为准
@@ -828,7 +826,7 @@ git revert <commit>
 
 AI Agent 接手内容任务时，按以下顺序执行：
 
-1. 阅读 `AGENTS.md`、`CLAUDE.md` 和本文档。
+1. 阅读 [AGENTS.md](../AGENTS.md) 和本文档，并按任务查阅其中列出的技能。
 2. 执行 `git status --short`，确认当前工作区是否有用户未提交的改动。
 3. 判断任务属于哪一类：
    - 文章
@@ -844,12 +842,12 @@ AI Agent 接手内容任务时，按以下顺序执行：
 8. 新建文章使用目录 + `index.md`，封面放同目录。
 9. 正文大图用 R2 URL，不要加入仓库。
 10. 不手动修改生成的 JSON 文件。
-11. 运行 `pnpm check`；涉及构建、图片或组件时运行 `pnpm build`。
-12. 用 `pnpm preview` 检查生产构建效果。
+11. 内容验收使用[发布前流程](#12-发布前流程)中的 `pnpm check`、`pnpm type-check` 和 `pnpm build`。
+12. 用 `pnpm preview` 检查实际改动的路由。
 13. 如果任务涉及密码文章，必须实际测试错误密码、正确密码、刷新缓存和图片加载。
 14. 如果任务涉及 R2，必须验证 GET 200 和 `cf-cache-status: HIT`。
-15. 不要提交或推送，除非用户明确要求。
-16. 如果用户要求提交，使用仓库现有作者身份或用户指定身份，不要自行编造。
+15. 按 [AGENTS.md 的分支规则](../AGENTS.md#deployment--branching)确定本次任务应做到本地验收、提交、推送还是 PR。
+16. 提交时使用[仓库的 Git 身份约定](../AGENTS.md#commit--pull-request-guidelines)。
 17. 提交前检查 `git diff --check`。
 18. 推送后报告 commit hash、部署状态和验证结果。
 
@@ -892,6 +890,7 @@ AI Agent 接手内容任务时，按以下顺序执行：
 - [ ] 外部链接使用完整 URL
 - [ ] 系列文章 `series`/`seriesOrder` 正确
 - [ ] `pnpm check` 通过
+- [ ] `pnpm type-check` 通过
 - [ ] `pnpm build` 通过
 - [ ] 375px 手机预览正常
 - [ ] 控制台无错误
@@ -1241,11 +1240,14 @@ $$
 
 ### 18.9 Callout 的扩展写法
 
-当前配置使用 GitHub 主题，支持自定义标题：
+当前配置使用 GitHub 主题，支持自定义标题和折叠。类型标记后加 `-` 时默认收起，加 `+` 时默认展开。
 
 ```markdown
 > [!NOTE] 自定义标题
 > 正文内容。
+
+> [!NOTE]- 点击展开说明
+> 这段内容默认收起。
 ```
 
 支持的基础类型：

@@ -6,36 +6,22 @@
 
 你是我的博客仓库 WirepullerDX/blog 的内容维护 Agent。
 
-开始任何操作前，必须先阅读并遵守：
-
-1. `AGENTS.md`
-2. `CLAUDE.md`
-3. `docs/WRITING_GUIDE.md`
-4. `src/content.config.ts`
+开始前读取仓库根目录的 [AGENTS.md](../AGENTS.md) 和 [docs/WRITING_GUIDE.md](WRITING_GUIDE.md)，按任务选用总纲中的技能。改文章、动态或项目时，用 [src/content.config.ts](../src/content.config.ts) 核对字段。
 
 不要凭记忆猜测字段、路径或命令。
 
 ## 仓库与部署结构
 
 - 正式站点：`https://blog.rxcdjg.cn`
-- 正式生产分支：`esa`
-- `master` 是 Cloudflare Pages 的冻结存档分支，禁止修改，也不要向 `master` 提交或创建 PR
-- 内容分支必须从 `origin/esa` 创建
-- PR 的 base 必须是 `esa`，不是 `master`
-- ESA Pages 使用仓库根目录的 `esa.jsonc` 构建
-- 不要运行 `wrangler pages` 相关命令
-- `wrangler` 仅用于 R2 上传，且必须先获得用户明确授权
+- 分支、PR 和外部操作遵循 [仓库发布规则](../AGENTS.md#deployment--branching)，实际验收参考 [blog-release](../.agents/skills/blog-release/SKILL.md)。
 
 ## 工作区安全
 
 1. 先执行 `git status --short`。
-2. 如果工作区有未提交改动，停止并报告，不要覆盖用户现有修改。
-3. 先更新本地分支：
-   `git fetch origin esa`
-4. 从最新 `origin/esa` 创建分支：
-   `git switch -c content/<slug> origin/esa`
-5. 不要直接在 `esa` 或 `master` 上修改，除非用户明确要求。
-6. 不要 force push、不要改写历史、不要删除远程分支。
+2. 保留用户已有的修改，实际重叠时先弄清变更范围。
+3. 需要创建内容分支时，获取最新 `origin/esa` 后运行 `git switch -c content/<slug> origin/esa`。
+4. 默认在主题分支上工作，目标分支按总纲选择。
+5. 不要 force push、不要改写历史、不要删除远程分支。
 
 ## 任务类型
 
@@ -57,15 +43,9 @@
 - 封面：同目录 `cover.webp`，建议 1600×900、300 KB 以内
 - 正文不要手写 H1，页面会自动使用 frontmatter 的 `title`
 - 正文从 H2 开始，层级不要跳级
-- Frontmatter 必须包含：
-  - `title`
-  - `published`
-  - `description`
-  - `tags`
-  - `category`
-  - `draft`
-  - `author`
-  - `comment`
+- 文章 Frontmatter 只必填 `title` 和 `published`。发布时建议按需填写 `description`、`tags`、`category`、`draft`、`author` 和 `comment`。其他字段见[字段规范](WRITING_GUIDE.md#43-字段规范)。
+- 文章语言与站点默认语言不同时填写 `lang`，例如英文文章用 `en`。
+- 提醒框使用 GitHub 语法，例如 `> [!NOTE]`。本站关闭了 Python-Markdown 的 `!!!`、`???` 和 `???+` 语法。折叠写法见[写作指南](WRITING_GUIDE.md#53-提醒框)。
 - 日期按 `Asia/Shanghai` 时区。
 - 已发布文章的 `published` 和 `slug` 不要修改；需要更新时设置 `updated`。
 - 标签和分类优先沿用现有站点的写法，不要随意发明同义标签。
@@ -119,18 +99,9 @@
 - Pagefind 搜索必须在 `pnpm build && pnpm preview` 后验证，开发服务器不能完整代表搜索结果。
 - ESA Pages 没有与 Cloudflare Pages 完全相同的 PR Preview 流程，不要假设每个 PR 都有公开预览地址。
 
-## 提交前验证
+## 内容验收
 
-必须运行：
-
-```powershell
-pnpm check
-pnpm type-check
-pnpm build
-pnpm preview
-```
-
-如果环境不支持其中某项，必须在报告中明确写出“未验证”，不能声称已通过。
+按照写作指南的[发布前流程](WRITING_GUIDE.md#12-发布前流程)执行检查和本地生产预览。环境限制导致缺项时，记录真实状态和原因。
 
 还要检查：
 
@@ -143,23 +114,9 @@ pnpm preview
 
 ## Git 与 PR
 
-1. 创建分支：
-   `content/<slug>`
-2. 只提交本次任务相关文件。
-3. 使用 Conventional Commits：
-   `feat(content): add ...`
-   `fix(content): correct ...`
-   `docs(content): update ...`
-4. push 分支：
-   `git push -u origin content/<slug>`
-5. 创建 PR：
-   - base：`esa`
-   - head：`content/<slug>`
-   - 标题和描述使用正常 UTF-8 中文，避免出现问号乱码
-   - PR 描述要列出改动、验证结果和未完成项
-6. 不要自动合并 PR。
-7. 等待用户检查 Files changed 和 ESA 构建结果。
-8. 如果用户明确要求合并，使用 Squash and merge 合并到 `esa`。
+1. 需要提交时，检查差异并只提交本次任务相关文件。按 [仓库提交约定](../AGENTS.md#commit--pull-request-guidelines)使用 Conventional Commits，例如 `feat(content): add ...`。
+2. 需要开 PR 时，推送 `content/<slug>` 并向 `esa` 开 PR。标题和描述使用 UTF-8，正文写清改动、验证结果和未完成项。
+3. 用户要求合并时，内容 PR 默认使用 Squash and merge，用户指定方式时以指定方式为准。
 
 ## ESA Pages 预览
 
@@ -173,17 +130,4 @@ pnpm preview
 
 ## 最终报告格式
 
-完成后只报告事实，不要只说“已完成”。必须包括：
-
-- 分支名
-- commit hash
-- PR 链接
-- ESA Pages 构建状态或预览链接（如果有）
-- 修改了哪些文件
-- 文章最终 URL
-- `pnpm check` 结果
-- `pnpm build` 结果
-- 本地 `pnpm preview` 结果
-- 未验证/需要人工处理的项
-
-如果任何一步失败，先修复或停止并报告，不要谎报成功。
+报告改动文件、适用的内容路由、实际通过的检查和本地预览结果，以及未验证或需要人工处理的项。如果本次已提交、开 PR 或部署，再提供对应的提交、PR 链接或 ESA 状态。
