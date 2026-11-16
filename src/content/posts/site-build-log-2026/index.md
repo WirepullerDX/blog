@@ -29,6 +29,10 @@ licenseUrl: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
 ## 最终架构
 
 ```mermaid
+---
+config:
+  htmlLabels: false
+---
 flowchart LR
   A[Markdown 内容] --> B[GitHub 仓库]
   B --> C[Cloudflare Pages]
