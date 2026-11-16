@@ -101,6 +101,10 @@ $ git rev-list --count HEAD
 `pnpm build` 不是一次 `astro build`，而是 `package.json` 里 8 段命令串起来：卡片数据 → LQIP → VNDB 封面 → Astro 构建 → 清理 pio 资源 → 字体子集化 → 内联脚本压缩 → Pagefind 索引。
 
 ```mermaid
+---
+config:
+  htmlLabels: false
+---
 flowchart LR
     A["git clone --depth 1<br/>05:36:22 检出"] --> B["pnpm install<br/>约 59 秒"]
     B --> C["pnpm check<br/>0 错误 0 警告"]
