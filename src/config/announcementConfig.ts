@@ -5,8 +5,7 @@ export const announcementConfig: AnnouncementConfig = {
 	title: "关于这里",
 
 	// 公告内容
-	content:
-		"这里记录技术实践中的探索与踩坑，也写点别的——内容不设限，慢慢更新。",
+	content: "这里记录技术实践中的探索与踩坑，也写点别的——内容不设限，慢慢更新。",
 
 	// 是否允许用户关闭公告
 	closable: true,
